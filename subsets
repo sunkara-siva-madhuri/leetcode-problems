@@ -1,0 +1,21 @@
+class Solution:
+
+  def combine(self, n: int, k: int) -> list[list[int]]:
+    result = []
+
+    def backtrack(start: int, current_comb: list[int]):
+      # If the combination is of length k, add a copy to the result
+      if len(current_comb) == k:
+        result.append(current_comb.copy())
+        return
+
+      # Optimization (Pruning):
+      # Only loop up to a point where remaining numbers are enough to fill k
+      needed = k - len(current_comb)
+      for i in range(start, n - needed + 2):
+        current_comb.append(i)
+        backtrack(i + 1, current_comb)
+        current_comb.pop()  # Backtrack
+
+    backtrack(1, [])
+    return result
