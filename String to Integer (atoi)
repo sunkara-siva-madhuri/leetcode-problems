@@ -1,0 +1,42 @@
+class Solution:
+    def myAtoi(self, s: str) -> int:
+        INT_MIN = -(2**31)
+        INT_MAX = 2**31 - 1
+
+        i = 0
+        n = len(s)
+
+        # 1. Ignore leading whitespace
+        while i < n and s[i] == ' ':
+            i += 1
+
+        # 2. Check sign
+        sign = 1
+
+        if i < n and s[i] == '-':
+            sign = -1
+            i += 1
+        elif i < n and s[i] == '+':
+            i += 1
+
+        # 3. Convert digits manually
+        result = 0
+
+        while i < n and '0' <= s[i] <= '9':
+            digit = ord(s[i]) - ord('0')
+
+            result = result * 10 + digit
+
+            i += 1
+
+        # 4. Apply sign
+        result *= sign
+
+        # 5. Handle 32-bit overflow
+        if result < INT_MIN:
+            return INT_MIN
+
+        if result > INT_MAX:
+            return INT_MAX
+
+        return result
